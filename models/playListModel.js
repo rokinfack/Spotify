@@ -2,7 +2,7 @@ const { Schema, default: mongoose } = require("mongoose");
 
 const PlayListSchema = new Schema({
     name: { type: String},
-    songs:[{type:Schema.Types.ObjectId, ref:'Song'}],
+    songs:[],
     user: {type:Schema.Types.ObjectId, ref:'User'}
 })
 

@@ -1,35 +1,45 @@
+const PlayList = require("../models/playListModel");
 const Song = require("../models/songModel");
 
 const getAllSongs = async (req, res) => {
     try {
+        const playListId= req.params.playList_id;
 
-        let songs = await Song.find();
+        let playList = await PlayList.findById(playListId);
 
-        res.json({msg: "Success !!"})
+        res.json(playList.songs);
         
     } catch (error) {
-        const erro = new Error('Request not found !')
-        throw erro;
+       next(error);
     }
 }
 
 const createSong = async (req, res) => {
+   
     try {
+        const playListId = req.params.playList_id;
+        const playList = await PlayList.findById(playListId)
+
         let newSong = new Song(req.body)
 
-        newSong.save()
+        playList.songs.push(newSong);
+        await playList.save()
 
-        res.json({msg:"Creation du song réussi avec success !!", newSong})
+        res.status(201).json({msg:"Creation du song réussi avec success !!", playList })
     } catch (error) {
         
     }
 }
 
 const getOneSong = async (req, res) => {
-    const id = req.parms.id;
+   
 
     try {
-        let song = await Song.findOne({_id:id})
+
+        const playListId = req.params.playList_id;
+        const songId = req.params.song_id;
+        const playList = await PlayList.findById(playListId)
+        let song = playList.songs.id(songId)
 
         res.json({masg:'Success !!', song})
     } catch (error) {
@@ -38,26 +48,50 @@ const getOneSong = async (req, res) => {
 }
 
 const updateSong = async (req, res) => {
-    const id = req.params.id;
-    const songData = req.body;
 
     try {
-        let song = await Song.findOneAndUpdate({_id:id, songData})
 
-        res.json({msg:"Updated successfull !!", song})
+        const playListId = req.params.playList_id;
+        const songData = req.body;
+
+        const query= {
+            _id:playListId,
+            'songs._id':song_id
+        }
+
+        const update = {
+            $set: { 'songs.$': {songData}}
+        };
+
+        const options = { new:true};
+
+
+        const playList = await PlayList.findOneAndUpdate(query,update,options)
+       
+
+        res.json({msg:"Updated successfull !!", playList})
     } catch (error) {
+        next(error)
         
     }
 }
 
 const deleteSong = async (req, res) => {
-    const id = req.params.id;
+   
 
     try {
-        let song = await Song.findOneAndRemove({_id:id})
+       
+
+        const playListId = req.params.playList_id;
+        const songId = req.params.song_id;
+        const playList = await PlayList.findById(playListId)
+
+        const song = playList.songs.id(songId).remove();
+      
 
         res.json({msg: "La suppression réussi avec success !!", song})
     } catch (error) {
+        next(error)
         
     }
 }

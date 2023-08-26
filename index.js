@@ -13,7 +13,7 @@ const passportJWT = require('./middlewares/passportJWT')()
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/mini-istagram');
+  await mongoose.connect('mongodb://127.0.0.1:27017/spotify');
   console.log('DATABASE CONNECTED!')
 }
 app.use(express.urlencoded({extended:false}))

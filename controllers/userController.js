@@ -6,9 +6,11 @@ const config = require('../config')
 
 
 const register = async (req, res) => {
-    const { email, password } = req.body;
+ 
+  const userData = req.body
+    
     try {
-      const newUser = new User({ email, password });
+      const newUser = new User(userData);
       await newUser.hashPassword();
       await newUser.save();
       res.json({ msg: "Inscription Done !!!", newUser });

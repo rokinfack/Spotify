@@ -2,11 +2,11 @@ const { getAllSongs, createSong, getOneSong, updateSong, deleteSong } = require(
 
 const songRouter = require('express').Router()
 
-songRouter.get('/allSong', getAllSongs)
+songRouter.get('/:playList_id/all', getAllSongs)
 
-songRouter.post('/newSong', createSong)
+songRouter.post('/:playList_id/newSong', createSong)
 
-songRouter.route('/:id')
+songRouter.route('/:playList_id/song/:song_id')
 .get(getOneSong)
 .put(updateSong)
 .delete(deleteSong)
