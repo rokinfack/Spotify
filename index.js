@@ -25,7 +25,7 @@ app.get('/', (req,res) => {
 })
 
 app.use('/api/playLists',passportJWT.authenticate(),playListRouter )
-app.use('/api/song',passportJWT.authenticate(),songRouter )
-app.use('/api/user',userRouter )
+app.use('/api/songs',passportJWT.authenticate(),songRouter )
+app.use('/api/users',userRouter )
 
 app.listen(port, ()=> console.log(`[SERVER] is running on: ${port}`))
